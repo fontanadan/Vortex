@@ -1,0 +1,69 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2006                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      funkySetFieldsDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+expressions
+(
+   init
+   {
+        field U;
+        expression "vector (-1.*vmax*((y-y0)/VR)*exp((1.-1.*(csi*csi))/2.),vmax*((x-x0)/VR)*exp((1.-1.*(csi*csi))/2.0), 0)";
+	keepPatches 1; //keep the boundary conditions that were set before
+	variables 
+        (
+            "x0=0.;"
+	    "y0=0.;"
+	    "x=pos().x;"
+            "y=pos().y;"
+            "vmax=0.01183;"      //sqrt(gamma)*Ma;   gamma = 1.4; mach of the vortex: MV = 0.01;
+	    "VR=0.1;"           //vortex radius
+	    "csi=sqrt(((x-x0)*(x-x0))+((y-y0)*(y-y0)))/VR;"
+        );
+    }
+
+    init
+    {
+        field p;
+        expression "pow(1.0-(0.00002*exp(1.-1.*(csi*csi))),3.5)";       //3.5 is gamma*gm
+	keepPatches 1; //keep the boundary conditions that were set before
+	variables 
+        (
+            "x0=0.;"
+	    "y0=0.;"
+	    "x=pos().x;"
+            "y=pos().y;"
+	    "VR=0.1;"
+            "csi=sqrt(((x-x0)*(x-x0))+((y-y0)*(y-y0)))/VR;"
+        );
+    }
+
+    init
+    {
+        field T;
+        expression   "1.0-(0.00002*exp(1.0-1.*(csi*csi)))";
+	keepPatches 1; //keep the boundary conditions that were set before	
+	variables
+       	(
+	    "x0=0.;"
+            "y0=0.;"
+            "x=pos().x;"
+            "y=pos().y;"
+	    "VR=0.1;"
+            "csi=sqrt(((x-x0)*(x-x0))+((y-y0)*(y-y0)))/VR;"
+        );
+    }
+
+);

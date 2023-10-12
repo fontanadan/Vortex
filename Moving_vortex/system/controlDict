@@ -1,0 +1,79 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2006                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      controlDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+application     	rhoEnergyFoam;
+
+startFrom       	latestTime;
+
+startTime       	100;
+
+stopAt          	endTime;
+
+endTime         	50;
+
+deltaT          	0.001;
+
+writeControl    	adjustableRunTime;
+
+writeInterval   	0.5;
+
+purgeWrite      	0;
+
+writeFormat     	ascii;
+
+writePrecision  	12;
+
+writeCompression 	off;
+
+timeFormat      	general;
+
+timePrecision   	6;
+
+runTimeModifiable 	yes;
+
+adjustTimeStep  	yes;
+
+maxCo           	0.2; //0.5;
+
+maxDeltaT       	1.;//0.01;
+
+pressArtDiff            false; //activate artificial diffusion on pressure terms
+convArtDiff     	false; //activate artificial diffusion on convective terms
+
+ducLevelPress       	1.00;
+ducLevelConv        	1.00;
+epsilon            	0.00014; 
+minfty              	0.01; // Reference Mach^2 number needed by AUSM flux (turbulent Mach number for HIT)
+kp                  	0.25;
+ku                  	0.75;
+rm                  	0.1;
+
+functions
+{
+/*
+	writeduc
+        {
+                type                    writeObjects;
+                libs                    ( "libutilityFunctionObjects.so" );
+                objects                 ( "ducSensor" );
+                writeControl            outputTime;
+                writeInterval           1;
+        }
+*/
+}
+
+// ************************************************************************* //
